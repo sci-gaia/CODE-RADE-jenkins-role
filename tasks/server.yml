@@ -1,6 +1,6 @@
 ---
 - name: install jenkins
-  yum:
+  package:
     name: jenkins
     state: present
 
@@ -14,7 +14,7 @@
 
 - name: Ensure that the wizard doesn't run
   replace:
-    dest: /etc/sysconfig/jenkins
+    dest: "{{ jenkins_daemon_config[ansible_os_family] }}"
     regexp: "^JENKINS_JAVA_OPTIONS=.*$"
     replace: "JENKINS_JAVA_OPTIONS='{{ jenkins_java_options }}'"
 
