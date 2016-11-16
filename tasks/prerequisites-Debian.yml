@@ -1,0 +1,24 @@
+---
+#Prerequisite stuff for Jenkins
+- name: ensure that the Jenkins key is available
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins-ci.org.key
+    state: present
+
+- name: ensure that the Jenkins repo is available
+  apt_repository:
+    repo: deb http://pkg.jenkins.io/debian-stable binary/
+    filename: jenkins
+    state: present
+
+
+- name: update package cache
+  apt:
+    update_cache: yes
+  changed_when: false
+
+- name: ensure prerequisites are present
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ jenkins_prerequisites }}"
